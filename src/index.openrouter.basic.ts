@@ -1,8 +1,13 @@
-{const { OpenAI } = require("openai");
+import OpenAI from "openai";
 const dotenv = require("dotenv");
 dotenv.config();
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey:
+    process.env.OPENAI_API_KEY ||
+    "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",
+});
 
 type Context = {
   role: "user" | "assistant" | "system";
@@ -20,23 +25,26 @@ const context: Context[] = [
   },
 ];
 
-async function chatCompletion() {
-  const response = await openai.chat.completions.create({
+async function main() {
+  const completion = await openai.chat.completions.create({
+    model: "openai/gpt-oss-20b:free",
     messages: context,
-    model: "gpt-4o-mini",
   });
 
-  const responseMessage = response.choices[0].message;
+  console.log(completion.choices[0].message);
+  const responseMessage = completion.choices[0].message;
 
   context.push({
     role: "assistant",
-    content: responseMessage.content,
+    content: responseMessage.content || "",
   });
 
   console.log(
-    `Assistant: ${response.choices[0].message.role}, ${response.choices[0].message.content}`
+    `Assistant: ${completion.choices[0].message.role}, ${completion.choices[0].message.content}`
   );
 }
+
+// main();
 
 async function run() {
   const input = require("prompt-sync")({ sigint: true });
@@ -52,10 +60,9 @@ async function run() {
       role: "user",
       content: userInput,
     });
-
-    await chatCompletion();
+    await main();
   }
 }
 
 run();
-}
+

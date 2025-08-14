@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node src/index.ts",
+    "dev:basic": "ts-node src/index.basic.ts",
     "start": "node -r ts-node/register src/index.ts"
   },
   "keywords": [],
@@ -11,7 +12,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@cerebras/cerebras_cloud_sdk": "^1.46.0",
     "dotenv": "^16.5.0",
+    "moment-timezone": "^0.6.0",
     "openai": "^4.100.0",
     "prompt-sync": "^4.2.0"
   },
