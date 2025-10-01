@@ -4,12 +4,14 @@ import readline from 'node:readline/promises';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 import { TavilySearch } from '@langchain/tavily';
 import { MemorySaver } from '@langchain/langgraph';
+import 'dotenv/config';
 
 const checkpointer = new MemorySaver();
 
 const tool = new TavilySearch({
     maxResults: 3,
     topic: 'general',
+    // apiKey: process.env.TAVILY_API_KEY,
     // includeAnswer: false,
     // includeRawContent: false,
     // includeImages: false,
@@ -40,6 +42,7 @@ const llm = new ChatGroq({
     model: 'openai/gpt-oss-120b',
     temperature: 0,
     maxRetries: 2,
+    // apiKey: process.env.GROQ_API_KEY,
 }).bindTools(tools);
 
 async function callModel(state) {
