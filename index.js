@@ -8,7 +8,7 @@ import 'dotenv/config';
 
 const checkpointer = new MemorySaver();
 
-const tool = new TavilySearch({
+const tavilyWebsearchTool = new TavilySearch({
     maxResults: 3,
     topic: 'general',
     // apiKey: process.env.TAVILY_API_KEY,
@@ -26,7 +26,7 @@ const tool = new TavilySearch({
  * Initialise the tool node
  */
 
-const tools = [tool];
+const tools = [tavilyWebsearchTool];
 const toolNode = new ToolNode(tools);
 
 /**
